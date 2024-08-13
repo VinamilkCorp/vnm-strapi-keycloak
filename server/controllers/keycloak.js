@@ -20,12 +20,13 @@ const configValidation = () => {
   return {
     ...config,
     KEYCLOAK_REDIRECT_URI_ENCODED: encodeURIComponent(config.KEYCLOAK_REDIRECT_URI),
-    OAUTH_ENDPOINT: `auth/realms/${config.KEYCLOAK_REALM}/protocol/openid-connect/auth`,
-    OAUTH_TOKEN_ENDPOINT: `auth/realms/${config.KEYCLOAK_REALM}/protocol/openid-connect/token`,
-    OAUTH_USER_INFO_ENDPOINT: `auth/realms/${config.KEYCLOAK_REALM}/protocol/openid-connect/userinfo`,
-    OAUTH_USER_END_SESSION: `auth/realms/${config.KEYCLOAK_REALM}/protocol/openid-connect/logout`,
+    OAUTH_ENDPOINT: `realms/${config.KEYCLOAK_REALM}/protocol/openid-connect/auth`,
+    OAUTH_TOKEN_ENDPOINT: `realms/${config.KEYCLOAK_REALM}/protocol/openid-connect/token`,
+    OAUTH_USER_INFO_ENDPOINT: `ealms/${config.KEYCLOAK_REALM}/protocol/openid-connect/userinfo`,
+    OAUTH_USER_END_SESSION: `realms/${config.KEYCLOAK_REALM}/protocol/openid-connect/logout`,
     OAUTH_GRANT_TYPE: 'authorization_code',
     OAUTH_RESPONSE_TYPE: 'code',
+    OAUTH_RESPONSE_MODE: 'fragment',
     OAUTH_SCOPE: 'openid profile',
     KEYCLOAK_STRAPI_SUPER_ADMIN_ROLE: config.KEYCLOAK_STRAPI_SUPER_ADMIN_ROLE || 'strapi.super-admin',
     KEYCLOAK_STRAPI_EDITOR_ROLE: config.KEYCLOAK_STRAPI_EDITOR_ROLE || 'strapi.editor',
@@ -40,7 +41,7 @@ const configValidation = () => {
  */
 async function keycloakSignIn(ctx) {
   const { OAUTH_ENDPOINT, KEYCLOAK_DOMAIN, KEYCLOAK_CLIENT_ID, KEYCLOAK_REDIRECT_URI_ENCODED, OAUTH_SCOPE, OAUTH_RESPONSE_TYPE } = configValidation();
-  const url = `${KEYCLOAK_DOMAIN}/${OAUTH_ENDPOINT}?client_id=${KEYCLOAK_CLIENT_ID}&redirect_uri=${KEYCLOAK_REDIRECT_URI_ENCODED}&scope=${OAUTH_SCOPE}&response_type=${OAUTH_RESPONSE_TYPE}`;
+  const url = `${KEYCLOAK_DOMAIN}/${OAUTH_ENDPOINT}?client_id=${KEYCLOAK_CLIENT_ID}&redirect_uri=${KEYCLOAK_REDIRECT_URI_ENCODED}&scope=${OAUTH_SCOPE}&response_type=${OAUTH_RESPONSE_TYPE}&response_mode=${OAUTH_RESPONSE_TYPE}`;
   ctx.set('Location', url);
   return ctx.send({}, 302);
 }
