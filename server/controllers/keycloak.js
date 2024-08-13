@@ -1,6 +1,6 @@
 const axios = require('axios');
 const { v4 } = require('uuid');
-const { getService } = require('@strapi/admin/server/utils');
+const { getService } = require('@strapi/plugin-users-permissions/server/utils');
 
 const configValidation = () => {
   const requiredConfig = ['KEYCLOAK_DOMAIN', 'KEYCLOAK_REALM', 'KEYCLOAK_CLIENT_ID', 'KEYCLOAK_CLIENT_SECRET', 'KEYCLOAK_REDIRECT_URI'];
