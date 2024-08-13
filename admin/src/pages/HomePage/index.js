@@ -52,7 +52,7 @@ const HomePage = () => {
 
   const onChangeCheck = (value, ssoId, role) => {
     for (const ssoRole of ssoRoles) {
-      if (ssoRole['oauth-type'] === ssoId) {
+      if (ssoRole['oauthType'] === ssoId) {
         if (ssoRole['role']) {
           if (value) {
             ssoRole['role'].push(role);
@@ -70,7 +70,7 @@ const HomePage = () => {
     try {
       await axios.put('/strapi-plugin-sso/sso-roles', {
         roles: ssoRoles.map((role) => ({
-          'oauth-type': role['oauth-type'],
+          oauthType: role['oauthType'],
           role: role['role'],
         })),
       });
@@ -133,14 +133,14 @@ const HomePage = () => {
           </Thead>
           <Tbody>
             {ssoRoles.map((ssoRole) => (
-              <Tr key={ssoRole['oauth-type']}>
+              <Tr key={ssoRole['oauthType']}>
                 <Td>{ssoRole['name']}</Td>
                 {roles.map((role) => (
                   <Th key={role['id']}>
                     <Checkbox
                       value={ssoRole['role'] && ssoRole['role'].includes(role['id'])}
                       onValueChange={(value) => {
-                        onChangeCheck(value, ssoRole['oauth-type'], role['id']);
+                        onChangeCheck(value, ssoRole['oauthType'], role['id']);
                       }}
                     >
                       {''}

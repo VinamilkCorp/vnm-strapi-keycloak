@@ -5,14 +5,14 @@ module.exports = ({ strapi }) => ({
   ssoRoles() {
     return [
       {
-        'oauth-type': this.SSO_TYPE_KEYCLOAK,
+        oauthType: this.SSO_TYPE_KEYCLOAK,
         name: 'Keycloak',
       },
     ];
   },
   async keycloakRoles() {
     return await strapi.query('plugin::strapi-plugin-sso.roles').findOne({
-      'oauth-type': this.SSO_TYPE_KEYCLOAK,
+      oauthType: this.SSO_TYPE_KEYCLOAK,
     });
   },
   async find() {
@@ -22,16 +22,16 @@ module.exports = ({ strapi }) => ({
     const query = strapi.query('plugin::strapi-plugin-sso.roles');
     await Promise.all(
       roles.map((role) => {
-        return query.findOne({ 'oauth-type': role['oauth-type'] }).then((ssoRole) => {
+        return query.findOne({ oauthType: role['oauthType'] }).then((ssoRole) => {
           if (ssoRole) {
             query.update({
-              where: { 'oauth-type': role['oauth-type'] },
+              where: { oauthType: role['oauthType'] },
               data: { roles: role.role },
             });
           } else {
             query.create({
               data: {
-                'oauth-type': role['oauth-type'],
+                oauthType: role['oauthType'],
                 roles: role.role,
               },
             });
